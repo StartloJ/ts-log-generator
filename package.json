@@ -1,7 +1,7 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "description": "",
+  "description": "This app use to prove of concept ts generate logs with tslog module to console(stdout/stderr) and other.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git@git.opsta.io:watcharin/ts-sample.git"
   },
-  "keywords": [],
+  "keywords": ["typescript","js","node","logging"],
   "author": "Watcharin(Start)",
   "license": "ISC",
   "devDependencies": {
