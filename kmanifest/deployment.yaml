@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: tsapp
-          image: "nginx:1.18"
+          image: "dukecyber/ts-log-generator:latest"
           imagePullPolicy: "Always"
           ports:
             - name: http
