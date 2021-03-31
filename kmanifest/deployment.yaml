@@ -21,6 +21,11 @@ spec:
         - name: tsapp
           image: "dukecyber/ts-log-generator:latest"
           imagePullPolicy: "Always"
+          env:
+          - name: ORG_NAME
+            value: "Opsta meow"
+          - name: NODE_ENV
+            value: "dev"
           ports:
             - name: http
               containerPort: 8080
