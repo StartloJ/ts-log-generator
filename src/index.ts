@@ -1,6 +1,9 @@
 import { Logger } from "tslog";
 import { LoggerDelay, LoggerName } from "./config";
 
+// This line show --> how to include environment variable from OS!!
+console.log("This demo is use in %s", process.env.ORG_NAME)
+
 const log: Logger = new Logger({ name: LoggerName, type: "pretty" });
 const delay = (ms: number) => {
     return new Promise(res => setTimeout(res, ms))
