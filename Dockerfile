@@ -1,6 +1,6 @@
 FROM node:15-alpine
 WORKDIR /app
+COPY package* ./
+RUN npm ci
 COPY . .
-RUN npm ci \
-    && npx tsc
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start"]
