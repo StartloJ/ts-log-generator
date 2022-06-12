@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: tsapp
-          image: "dukecyber/ts-log-generator:latest"
+          image: "dukecyber/ts-log-generator:0.1.0"
           imagePullPolicy: "Always"
           env:
           - name: ORG_NAME
