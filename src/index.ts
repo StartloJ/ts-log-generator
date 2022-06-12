@@ -1,10 +1,37 @@
-import { Logger } from "tslog";
-import { LoggerDelay, LoggerName } from "./config";
+import { ILogObject, Logger } from "tslog";
+import { LoggerDelay, LoggerName, LogToFile, LogPath, LogType } from "./config";
+import { appendFileSync } from "fs";
 
 // This line show --> how to include environment variable from OS!!
-console.log("This demo is use in %s", process.env.ORG_NAME)
+console.log("This demo is use in %s", LoggerName)
 
-const log: Logger = new Logger({ name: LoggerName, type: "pretty" });
+function logToTransport(logObject: ILogObject) {
+  appendFileSync(LogPath + "tsdev.log", JSON.stringify(logObject) + "\n");
+}
+
+type LogType = 'pretty' | 'json' | 'hidden' | undefined;
+var mytype
+if (LogType == undefined) {
+  mytype = 'pretty' as LogType
+}
+
+const log: Logger = new Logger({ name: LoggerName, type: mytype });
+
+if (LogToFile.toLowerCase() == "true") {
+  log.attachTransport(
+    {
+      silly: logToTransport,
+      debug: logToTransport,
+      trace: logToTransport,
+      info: logToTransport,
+      warn: logToTransport,
+      error: logToTransport,
+      fatal: logToTransport,
+    },
+    "debug"
+  );
+}
+
 const delay = (ms: number) => {
     return new Promise(res => setTimeout(res, ms))
 }
@@ -19,32 +46,32 @@ const genLog = async () => {
         await delay(ranNum * 1000)
         switch(ranNum) {
             case 0: {
-                log.silly("I am a silly log.");
-                break;
+              log.silly("I am a silly log.");
+              break;
             }
             case 1: {
-                log.trace("I am a trace log with a stack trace.");
-                break;
+              log.trace("I am a trace log with a stack trace.");
+              break;
             }
             case 2: {
-                log.debug("I am a debug log.");
-                break;
+              log.debug("I am a debug log.");
+              break;
             }
             case 3: {
-                log.info("I am an info log.");
-                break;
+              log.fatal(new Error("I am a pretty Error with a stacktrace."));
+              break;
             }
             case 4: {
-                log.warn("I am a warn log with a json object:", {foo: "bar"});
-                break;
+              log.warn("I am a warn log with a json object:", {foo: "bar"});
+              break;
             }
             case 5: {
-                log.error("I am an error log.");
-                break;
+              log.error("I am an error log.");
+              break;
             }
             default: {
-                log.fatal(new Error("I am a pretty Error with a stacktrace."));
-                break;
+              log.info("I am an info log.");
+              break;
             }
         }
     }
