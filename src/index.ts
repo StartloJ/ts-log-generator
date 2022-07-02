@@ -1,11 +1,23 @@
 import { ILogObject, Logger } from "tslog";
 import { LoggerDelay, LoggerName, LogToFile, LogPath, LogType } from "./config";
 import { appendFileSync } from "fs";
+import { stringify } from "querystring";
 
 // This line show --> how to include environment variable from OS!!
 
 function logToTransport(logObject: ILogObject) {
-  appendFileSync(LogPath + "tsdev.log", JSON.stringify(logObject) + "\n");
+  var jsonLogFormat = {
+    timestamp: logObject.date,
+    loglevel: logObject.logLevel,
+    file: logObject.filePath,
+    functionName: logObject.functionName,
+    message: logObject.argumentsArray,
+  }
+  if (LogType == 'json') {
+    appendFileSync(LogPath + "-tsdev.log", JSON.stringify(jsonLogFormat) + "\n");
+  } else {
+    appendFileSync(LogPath + "-tsdev.log", logObject.date.toISOString() + ' ' + logObject.logLevel.toUpperCase() + ' ['+logObject.fileName + ':' + logObject.lineNumber + '] ' + logObject.argumentsArray.toLocaleString() + "\n")
+  }
 }
 
 type DefineLogType = 'pretty' | 'json' | 'hidden' | undefined;
