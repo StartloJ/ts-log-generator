@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  tsdev:
+    image: dukecyber/ts-log-generator:0.2.2
+    environment:
+      - LOGGER_NAME=Demo
+      - LOG_TYPE=pretty
+      - LOG_TO_FILE=true
+      - LOG_PATH='/app/logs/'
+      - LOGGER_DELAY=5
+    volumes:
+      - logvolume01:/app/logs
+  collector:
+    image: fluent/fluent-bit:1.9
+    volumes:
+      - ./collector:/fluent-bit/etc
+      - logvolume01:/app/logs
+volumes:
+  logvolume01: {}
