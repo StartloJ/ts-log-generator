@@ -1,7 +1,6 @@
 import { ILogObject, Logger } from "tslog";
 import { LoggerDelay, LoggerName, LogToFile, LogPath, LogType } from "./config";
-import { appendFileSync } from "fs";
-import { stringify } from "querystring";
+import { appendFileSync, existsSync, mkdirSync } from "fs";
 
 // This line show --> how to include environment variable from OS!!
 
@@ -14,9 +13,9 @@ function logToTransport(logObject: ILogObject) {
     message: logObject.argumentsArray,
   }
   if (LogType == 'json') {
-    appendFileSync(LogPath + "-tsdev.log", JSON.stringify(jsonLogFormat) + "\n");
+    appendFileSync(LogPath + "tsdev.log", JSON.stringify(jsonLogFormat) + "\n");
   } else {
-    appendFileSync(LogPath + "-tsdev.log", logObject.date.toISOString() + ' ' + logObject.logLevel.toUpperCase() + ' ['+logObject.fileName + ':' + logObject.lineNumber + '] ' + logObject.argumentsArray.toLocaleString() + "\n")
+    appendFileSync(LogPath + "tsdev.log", logObject.date.toISOString() + ' ' + logObject.logLevel.toUpperCase() + ' ['+logObject.fileName + ':' + logObject.lineNumber + '] ' + logObject.argumentsArray.toLocaleString() + "\n")
   }
 }
 
@@ -28,6 +27,9 @@ const log: Logger = new Logger({ name: LoggerName, type: mytype });
 log.info('This app running with', LoggerName)
 
 if (LogToFile.toLowerCase() == "true") {
+  if (existsSync(LogPath) == false) {
+    mkdirSync(LogPath, { recursive: true })
+  }
   log.attachTransport(
     {
       silly: logToTransport,
