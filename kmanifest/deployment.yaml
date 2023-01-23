@@ -17,15 +17,26 @@ spec:
         app.kubernetes.io/name: tsample-debug
         app: tsample-debug
     spec:
+      restartPolicy: OnFailure
       containers:
         - name: tsapp
-          image: "dukecyber/ts-log-generator:0.1.0"
+          image: "dukecyber/ts-log-generator:0.2.2"
           imagePullPolicy: "Always"
           env:
           - name: ORG_NAME
             value: "Opsta meow"
           - name: NODE_ENV
             value: "dev"
+          - name: LOGGER_NAME
+            value: "opsta-meow"
+          - name: LOG_TYPE
+            value: "json"
+          - name: LOG_TO_FILE
+            value: "false"
+          - name: LOG_PATH
+            value: "./"
+          - name: LOGGER_DELAY
+            value: "1"
           ports:
             - name: http
               containerPort: 8080
