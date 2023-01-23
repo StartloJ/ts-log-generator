@@ -11,9 +11,9 @@ services:
     volumes:
       - logvolume01:/app/logs
   collector:
-    image: fluent/fluent-bit:1.9
+    image: bitnami/fluent-bit:1.9.4
     volumes:
-      - ./collector:/fluent-bit/etc
+      - ./collector/fluent-bit.conf:/opt/bitnami/fluent-bit/conf/fluent-bit.conf
       - logvolume01:/app/logs
 volumes:
   logvolume01: {}
